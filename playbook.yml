@@ -1,0 +1,28 @@
+---
+- hosts: vm1
+  become: true
+  gather_facts: false
+  tasks:
+    - name: Installing packages
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - python-docker
+        - docker.io
+        - curl
+        - jq
+        - dnsutils
+    - name: Adding default user to docker group
+      user:
+        name: vagrant
+        groups: vagrant,cdrom,floppy,sudo,audio,dip,video,plugdev,netdev,docker
+- hosts: vm2
+  gather_facts: false
+  tasks:
+    - name: Installing packages
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - postgresql
