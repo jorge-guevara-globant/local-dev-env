@@ -2,7 +2,10 @@
 
 Install vagrant and virtualbox
 
-## Ubuntu 1404
+* https://www.vagrantup.com/downloads.html
+* https://www.virtualbox.org/wiki/Downloads
+
+## Ubuntu 1804
 
 Clone the Vulcan repository
 
