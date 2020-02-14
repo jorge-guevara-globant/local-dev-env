@@ -21,6 +21,7 @@
         - tk-dev
         - libffi-dev
         - build-essential
+        - postgis
     - name: Checking out pyenv
       git:
         repo: https://github.com/pyenv/pyenv.git
@@ -43,15 +44,3 @@
             eval "$(pyenv init -)"
             eval "$(pyenv virtualenv-init -)"
           fi
-- hosts: vm2
-  become: true
-  gather_facts: false
-  tasks:
-    - name: Installing packages
-      apt:
-        name: "{{ item }}"
-        state: present
-        update_cache: yes
-      loop:
-        - postgis
-        - python3-psycopg2
