@@ -55,6 +55,3 @@
       loop:
         - postgis
         - python3-psycopg2
-    - name: Creating tesseract DB
-      postgresql_db:
-        name: tesseract
