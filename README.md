@@ -1,5 +1,6 @@
 # Vulcan local dev env
 
+Install vagrant and virtualbox
 
 ## Ubuntu 1404
 
@@ -29,3 +30,5 @@ Run vagrant
 ```
 vagrant up
 ```
+
+Follow from `Installing Python 3.5.4`: https://smiledirectclub.atlassian.net/wiki/spaces/EN/pages/62881827/Getting+Started+on+OSX

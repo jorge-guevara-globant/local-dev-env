@@ -42,10 +42,12 @@ Vagrant.configure("2") do |config|
   #
   # config.vm.provider "virtualbox" do |vb|
   #   # Display the VirtualBox GUI when booting the machine
-  #   vb.gui = true
+  #   #vb.gui = true
   #
   #   # Customize the amount of memory on the VM:
-  #   vb.memory = "1024"
+  #   #vb.memory = "1024"
+  #
+  #   vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
   # end
 
   N=2
@@ -62,7 +64,7 @@ Vagrant.configure("2") do |config|
             "group" => ["vm#{N-1}", "vm#{N}"]
           }
           #ansible.verbose = "vvv"
-          #ansible.verbose = "true"
+          ansible.verbose = "true"
         end
       end
     end

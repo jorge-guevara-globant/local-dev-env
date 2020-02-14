@@ -1,5 +1,49 @@
 ---
 - hosts: vm1
+  gather_facts: false
+  tasks:
+    - name: Installing packages
+      become: true
+      apt:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+        install_recommends: no
+      loop:
+        - redis
+        - libssl1.0-dev
+        - npm
+        - libjpeg-turbo8-dev
+        - libgdal-dev
+        - libreadline-dev
+        - llvm
+        - libncurses5-dev
+        - tk-dev
+        - libffi-dev
+        - build-essential
+    - name: Checking out pyenv
+      git:
+        repo: https://github.com/pyenv/pyenv.git
+        dest: $HOME/.pyenv
+    - name: Checking out virtualenv pyenv plugin
+      git:
+        repo: https://github.com/pyenv/pyenv-virtualenv.git
+        dest: $HOME/.pyenv/plugins/pyen-virtualenv
+    - name: Defining environment variables for pyenv
+      blockinfile:
+        path: $HOME/.profile
+        block: |
+          export PYENV_ROOT="$HOME/.pyenv"
+          export PATH="$PYENV_ROOT/bin:$PATH"
+    - name: Adding pyenv init to the shell
+      blockinfile:
+        path: $HOME/.bashrc
+        block: |
+          if command -v pyenv 1>/dev/null 2>&1; then
+            eval "$(pyenv init -)"
+            eval "$(pyenv virtualenv-init -)"
+          fi
+- hosts: vm2
   become: true
   gather_facts: false
   tasks:
@@ -7,22 +51,9 @@
       apt:
         name: "{{ item }}"
         state: present
+        update_cache: yes
       loop:
-        - python-docker
-        - docker.io
-        - curl
-        - jq
-        - dnsutils
-    - name: Adding default user to docker group
-      user:
-        name: vagrant
-        groups: vagrant,cdrom,floppy,sudo,audio,dip,video,plugdev,netdev,docker
-- hosts: vm2
-  gather_facts: false
-  tasks:
-    - name: Installing packages
-      apt:
-        name: "{{ item }}"
-        state: present
-      loop:
-        - postgresql
+        - postgis
+    - name: Creating tesseract DB
+      postgresql_db:
+        name: tesseract
