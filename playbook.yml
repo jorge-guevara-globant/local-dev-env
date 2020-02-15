@@ -44,3 +44,27 @@
             eval "$(pyenv init -)"
             eval "$(pyenv virtualenv-init -)"
           fi
+    - name: Installing python 3.5.4
+      command: $HOME/.pyenv/bin/pyenv install 3.5.4
+      args:
+        chdir: /vagrant
+    - name: Creating tesseract DB
+      become: true
+      postgresql_db:
+        name: tesseract
+    - name: Setup project pyenv
+      command: $HOME/.pyenv/bin/pyenv local 3.5.4
+      args:
+        chdir: /vagrant
+    - name: Creating virtualenv
+      command: $HOME/.pyenv/bin/pyenv virtualenv smilecheck
+      args:
+        chdir: /vagrant
+    - name: Activating smilecheck virtualenv
+      command: $HOME/.pyenv/bin/pyenv activate smilecheck
+      args:
+        chdir: /vagrant
+    - name: Installing python project dependencies
+      pip:
+        chdir: /vagrant/scc-api
+        requirements: requirements.txt

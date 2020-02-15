@@ -50,7 +50,7 @@ Vagrant.configure("2") do |config|
   #   vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
   # end
 
-  N=2
+  N=1
   (1..N).each do |id|
     config.vm.define "vm#{id}" do |vm|
       vm.vm.hostname = "vm#{id}"
