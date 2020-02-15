@@ -22,6 +22,19 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
+## Windows
+
+Download Python
+
+* https://www.python.org/downloads/windows/
+
+```
+py -m pip install --user virtualenv
+py -m venv env
+.\env\Scripts\activate
+pip install -r requirements.txt
+```
+
 If you already installed pip requirements
 
 ```
