@@ -22,6 +22,7 @@
         - libffi-dev
         - build-essential
         - postgis
+        - python3-psycopg2
     - name: Checking out pyenv
       git:
         repo: https://github.com/pyenv/pyenv.git
