@@ -32,7 +32,7 @@ Vagrant.configure("2") do |config|
 
   # Share an additional folder to the guest VM. The first argument is
   # the path on the host to the actual folder. The second argument is
-  # the path on the guest to mount the folder. And the optional third
+  # the path on the guest to mount the folder. And the optional thir
   # argument is a set of non-required options.
   config.vm.synced_folder ".", "/vagrant"
 
@@ -57,14 +57,16 @@ Vagrant.configure("2") do |config|
       vm.vm.network "private_network", ip: "172.20.20.#{10+id}"
 
       if id == N
-        vm.vm.provision "ansible" do |ansible|
+        vm.vm.provision "ansible_local" do |ansible|
+          ansible.install_mode = "pip"
+	  ansible.pip_args = "-r /vagrant/requirements.txt"
           ansible.playbook = "playbook.yml"
           ansible.limit = "all"
           ansible.groups = {
-            "group" => ["vm#{N-1}", "vm#{N}"]
+            "group" => ["vm#{N}"]
           }
-          #ansible.verbose = "vvv"
-          ansible.verbose = "true"
+          ansible.verbose = "vvv"
+          #ansible.verbose = "true"
         end
       end
     end
