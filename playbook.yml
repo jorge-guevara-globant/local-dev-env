@@ -1,7 +1,12 @@
 ---
 - hosts: vm1
-  gather_facts: false
   tasks:
+    - include_role:
+        name: ansible-pyenv
+      vars:
+        pyenv_init_shell: true
+        pyenv_pyton_versions:
+          - "3.5.4"
     - name: Installing packages
       become: true
       apt:
@@ -21,35 +26,14 @@
         - tk-dev
         - libffi-dev
         - build-essential
+        - postgresql
         - postgis
         - python-psycopg2
         - python-bz2file
-    - name: Checking out pyenv
-      git:
-        repo: https://github.com/pyenv/pyenv.git
-        dest: $HOME/.pyenv
-    - name: Checking out virtualenv pyenv plugin
-      git:
-        repo: https://github.com/pyenv/pyenv-virtualenv.git
-        dest: $HOME/.pyenv/plugins/pyen-virtualenv
-    - name: Defining environment variables for pyenv
-      blockinfile:
-        path: $HOME/.profile
-        block: |
-          export PYENV_ROOT="$HOME/.pyenv"
-          export PATH="$PYENV_ROOT/bin:$PATH"
-    - name: Adding pyenv init to the shell
-      blockinfile:
-        path: $HOME/.bashrc
-        block: |
-          if command -v pyenv 1>/dev/null 2>&1; then
-            eval "$(pyenv init -)"
-            eval "$(pyenv virtualenv-init -)"
-          fi
-    - name: Installing python 3.5.4
-      command: $HOME/.pyenv/bin/pyenv install 3.5.4
-      args:
-        chdir: /vagrant
+    - name: Starting PostreSQL service
+      service:
+        name: postgresql
+        state: started
     - name: Creating tesseract DB
       become: true
       postgresql_db:

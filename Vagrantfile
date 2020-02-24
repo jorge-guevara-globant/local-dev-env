@@ -59,8 +59,8 @@ Vagrant.configure("2") do |config|
       if id == N
         vm.vm.provision "ansible_local" do |ansible|
           ansible.install_mode = "pip"
-	  ansible.pip_args = "-r /vagrant/requirements.txt"
           ansible.playbook = "playbook.yml"
+          ansible.galaxy_role_file = "requirements.yml"
           ansible.limit = "all"
           ansible.groups = {
             "group" => ["vm#{N}"]
